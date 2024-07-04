@@ -130,3 +130,11 @@ func unsupportedFeatureError() error {
 func unknownError() error {
 	return &Error{code: ErrorCodeUnknown}
 }
+
+type ResourceNotFoundError struct {
+	stream string
+}
+
+func (e *ResourceNotFoundError) Error() string {
+	return fmt.Sprintf("stream with id: %v not found", e.stream)
+}

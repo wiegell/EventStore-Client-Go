@@ -3,7 +3,6 @@ package esdb
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"sync"
 	"sync/atomic"
@@ -61,7 +60,7 @@ func (stream *ReadStream) Recv() (*ResolvedEvent, error) {
 	case *api.ReadResp_StreamNotFound_:
 		atomic.StoreInt32(stream.closed, 1)
 		streamName := string(msg.Content.(*api.ReadResp_StreamNotFound_).StreamNotFound.StreamIdentifier.StreamName)
-		return nil, &Error{code: ErrorCodeResourceNotFound, err: fmt.Errorf("stream '%s' is not found", streamName)}
+		return nil, &ResourceNotFoundError{stream: streamName}
 	}
 
 	panic("unreachable code")
